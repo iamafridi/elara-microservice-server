@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/apps/auth-service",
+    "baseUrl": "./",
+    "paths": {
+      "@app/database/*": ["../../libs/database/src/*"],
+      "@app/config/*": ["../../libs/config/src/*"],
+      "@app/events/*": ["../../libs/events/src/*"],
+      "@app/guards/*": ["../../libs/guards/src/*"],
+      "@app/common/*": ["../../libs/common/src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test"]
+}
