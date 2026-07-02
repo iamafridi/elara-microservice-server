@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elara — Everything in one tap.</title>
+  <!-- Tailwind CSS Engine -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Italiana&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+    :root {
+      --ivory: #F4EFE7;
+      --ink: #101110;
+      --cobalt: #2448FF;
+      --coral: #FF7658;
+      --lime: #D8FF42;
+      --stone: #E5DFC8;
+    }
+
+    body {
+      background-color: var(--ivory);
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      selection-background-color: var(--coral);
+      selection-color: #fff;
+    }
+
+    ::selection {
+      background-color: var(--coral);
+      color: #ffffff;
+    }
+
+    .font-serif-luxury {
+      font-family: 'Playfair Display', serif;
+    }
+
+    .font-editorial-italiana {
+      font-family: 'Italiana', serif;
+    }
+
+    .font-mono-meta {
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Editorial tight tracking */
+    .tracking-editorial {
+      letter-spacing: -0.055em;
+    }
+
+    .tracking-ultra-tight {
+      letter-spacing: -0.07em;
+    }
+
+    /* Infinite Marquee */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .animate-marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee 22s linear infinite;
+    }
+
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+
+    /* Orbital Motion */
+    @keyframes orbit-cw {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes orbit-ccw {
+      from { transform: rotate(360deg); }
+      to { transform: rotate(0deg); }
+    }
+
+    .animate-orbit-cw {
+      animation: orbit-cw 34s linear infinite;
+    }
+
+    .animate-orbit-ccw {
+      animation: orbit-ccw 26s linear infinite;
+    }
+
+    /* Floating Capsule Pulse */
+    @keyframes hero-float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-14px) rotate(1deg); }
+    }
+
+    .animate-hero-float {
+      animation: hero-float 6.5s ease-in-out infinite;
+    }
+
+    /* Editorial Offset Shadows */
+    .shadow-offset-coral {
+      box-shadow: 8px 8px 0px 0px var(--coral);
+    }
+
+    .shadow-offset-cobalt {
+      box-shadow: 7px 7px 0px 0px var(--cobalt);
+    }
+
+    .shadow-offset-ink {
+      box-shadow: 8px 8px 0px 0px var(--ink);
+    }
+
+    .shadow-offset-lime {
+      box-shadow: 7px 7px 0px 0px var(--lime);
+    }
+
+    /* Magnetic & Lift transitions */
+    .card-editorial {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .card-editorial:hover {
+      transform: translateY(-6px) translateX(-4px);
+      box-shadow: 12px 12px 0px 0px var(--ink);
+    }
+
+    /* Node pulse */
+    @keyframes ripple {
+      0% { transform: scale(0.9); opacity: 0.9; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+
+    .pulse-ring {
+      animation: ripple 2.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+    }
+
+    /* Grain Texture Overlay */
+    .bg-grain {
+      background-image: radial-gradient(#101110 0.75px, transparent 0.75px);
+      background-size: 24px 24px;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--ivory);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--ink);
+    }
+  </style>
+</head>
+<body class="bg-[#F4EFE7] text-[#101110] antialiased overflow-x-hidden relative">
+
+  <!-- ==================== TOP SYSTEM BAR ==================== -->
+  <div class="w-full bg-[#101110] text-[#F4EFE7] text-[11px] font-mono-meta py-1.5 px-6 border-b border-[#2448FF]/30 flex justify-between items-center z-50 relative">
+    <div class="flex items-center space-x-4">
+      <span class="inline-flex items-center gap-1.5 text-[#D8FF42]">
+        <span class="w-1.5 h-1.5 rounded-full bg-[#D8FF42] animate-ping"></span>
+        DISPATCH CORE: ACTIVE
+      </span>
+      <span class="hidden md:inline text-white/50">|</span>
+      <span class="hidden md:inline text-white/70">ELARA ARCHITECTURE PHASE 01</span>
+    </div>
+    <div class="flex items-center space-x-6 text-[10px] tracking-wider uppercase">
+      <span class="text-[#FF7658]">10 UK CITIES CONNECTED</span>
+      <span class="hidden sm:inline text-white/40">LON • MAN • BHX • LDS • GLA</span>
+    </div>
+  </div>
+
+  <!-- ==================== 1. MINIMAL TOP NAVIGATION ==================== -->
+  <header class="sticky top-0 z-40 bg-[#F4EFE7]/90 backdrop-blur-md border-b border-[#101110] px-5 sm:px-8 lg:px-14 py-4 transition-all">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center space-x-3.5 group">
+        <div class="w-10 h-10 rounded-full bg-[#101110] text-[#F4EFE7] flex items-center justify-center font-serif-luxury font-bold text-xl border border-[#101110] group-hover:bg-[#2448FF] group-hover:rotate-12 transition-all duration-300 shadow-sm">
+          A
+        </div>
+        <div class="flex flex-col">
+          <span class="font-bold text-lg tracking-tight leading-none text-[#101110]">Elara</span>
+          <span class="font-mono-meta text-[9px] uppercase tracking-widest text-[#FF7658] font-bold">SUPER APP ECOSYSTEM</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center space-x-10 text-[13px] font-mono-meta uppercase tracking-wider">
+        <a href="#ecosystem" class="text-[#101110] hover:text-[#2448FF] transition-colors relative py-1 group">
+          01 // Ecosystem
+          <span class="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#2448FF] group-hover:w-full transition-all duration-200"></span>
+        </a>
+        <a href="#connectivity" class="text-[#101110] hover:text-[#2448FF] transition-colors relative py-1 group">
+          02 // How it connects
+          <span class="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#2448FF] group-hover:w-full transition-all duration-200"></span>
+        </a>
+        <a href="#foundation" class="text-[#101110] hover:text-[#2448FF] transition-colors relative py-1 group">
+          03 // Foundation
+          <span class="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[#2448FF] group-hover:w-full transition-all duration-200"></span>
+        </a>
+      </nav>
+
+      <!-- Action Elements -->
+      <div class="flex items-center space-x-4">
+        <a href="#waitlist" class="hidden sm:inline-flex items-center justify-center px-6 py-2.5 bg-[#2448FF] text-white font-mono-meta text-xs uppercase tracking-wider font-semibold border border-[#101110] hover:bg-[#101110] hover:text-[#D8FF42] transition-all shadow-[4px_4px_0px_0px_#101110] active:translate-x-1 active:translate-y-1 active:shadow-none">
+          Join the waitlist &rarr;
+        </a>
+
+        <!-- Mobile Circular Menu Button -->
+        <button id="mobileMenuBtn" aria-label="Toggle Navigation" class="md:hidden w-11 h-11 rounded-full bg-[#101110] text-white flex flex-col items-center justify-center space-y-1.5 focus:outline-none border border-[#101110]">
+          <span class="w-5 h-[1.5px] bg-[#F4EFE7] transition-transform"></span>
+          <span class="w-3.5 h-[1.5px] bg-[#FF7658] transition-transform self-end mr-3"></span>
+          <span class="w-5 h-[1.5px] bg-[#F4EFE7] transition-transform"></span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobileDrawer" class="hidden md:hidden pt-6 pb-4 border-t border-[#101110] mt-4 font-mono-meta text-xs uppercase tracking-wider flex flex-col space-y-4">
+      <a href="#ecosystem" class="text-[#101110] hover:text-[#2448FF] py-1">01 // Ecosystem</a>
+      <a href="#connectivity" class="text-[#101110] hover:text-[#2448FF] py-1">02 // How it connects</a>
+      <a href="#foundation" class="text-[#101110] hover:text-[#2448FF] py-1">03 // Foundation</a>
+      <a href="#waitlist" class="inline-block text-center py-3 bg-[#2448FF] text-white font-bold border border-[#101110] shadow-[3px_3px_0px_0px_#101110]">Join the waitlist &rarr;</a>
+    </div>
+  </header>
+
+  <!-- ==================== 2. HERO SECTION ==================== -->
+  <section class="relative min-h-[90vh] flex items-center pt-10 pb-20 lg:py-24 px-5 sm:px-8 lg:px-14 border-b border-[#101110] overflow-hidden">
+    
+    <!-- Ghost Background Typography -->
+    <div class="absolute inset-0 pointer-events-none select-none flex items-center justify-center overflow-hidden opacity-[0.035]">
+      <span class="text-[28vw] font-black tracking-tighter text-[#101110] font-sans leading-none translate-y-10">
+        ELARA
+      </span>
+    </div>
+
+    <!-- Subtle Editorial Grid Accents -->
+    <div class="absolute inset-0 bg-grain pointer-events-none opacity-40"></div>
+    <div class="absolute top-0 right-1/3 w-[1px] h-full bg-[#101110]/10 hidden xl:block pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative z-10">
+      
+      <!-- Left Column: Oversized Editorial Typography -->
+      <div class="lg:col-span-7 flex flex-col justify-center">
+        
+        <!-- Metadata Tag -->
+        <div class="flex items-center space-x-3 mb-6">
+          <span class="inline-block w-2.5 h-2.5 bg-[#FF7658] border border-[#101110]"></span>
+          <span class="font-mono-meta text-xs font-bold tracking-widest uppercase text-[#101110]">
+            VOL. 01 — THE BRITISH SUPER APP PLATFORM
+          </span>
+        </div>
+
+        <!-- Hero Headline -->
+        <h1 class="text-6xl sm:text-7xl xl:text-8xl font-black text-[#101110] tracking-ultra-tight leading-[0.88] mb-8">
+          Everything<br>
+          <span class="font-serif-luxury italic font-normal text-[#2448FF] underline decoration-[#FF7658] decoration-4 underline-offset-8">
+            in one tap.
+          </span>
+        </h1>
+
+        <!-- Product Statement -->
+        <p class="text-lg sm:text-xl text-[#101110]/85 font-normal max-w-xl leading-relaxed mb-10 tracking-tight font-sans">
+          Food, supermarket groceries, parcel dispatch, artisanal Halal fresh, flowers, cold-chain fresh fish, and 100+ local taskers. Bound into a single, unified payment wallet and logistics spine across the United Kingdom.
+        </p>
+
+        <!-- CTA Action Cluster -->
+        <div class="flex flex-wrap items-center gap-4 sm:gap-6 pt-2">
+          <a href="#waitlist" class="px-8 py-4 bg-[#101110] text-[#F4EFE7] hover:bg-[#2448FF] text-sm font-mono-meta font-bold tracking-wider uppercase border border-[#101110] shadow-offset-coral hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-200">
+            Join the waitlist &rarr;
+          </a>
+
+          <a href="#foundation" class="px-7 py-4 bg-transparent hover:bg-white/80 text-[#101110] text-sm font-mono-meta font-bold tracking-wider uppercase border border-[#101110] shadow-[5px_5px_0px_0px_#101110] transition-all duration-200">
+            Book a demo
+          </a>
+        </div>
+
+        <!-- Micro stats below CTA -->
+        <div class="grid grid-cols-3 gap-6 pt-12 mt-8 border-t border-[#101110]/20 max-w-lg">
+          <div>
+            <div class="text-2xl font-bold font-mono-meta text-[#2448FF]">10</div>
+            <div class="text-xs font-mono-meta text-[#101110]/70 uppercase">UK Metro Zones</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold font-mono-meta text-[#FF7658]">103</div>
+            <div class="text-xs font-mono-meta text-[#101110]/70 uppercase">Schema Tables</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold font-mono-meta text-[#101110]">&lt; 30s</div>
+            <div class="text-xs font-mono-meta text-[#101110]/70 uppercase">Tasker Match</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Abstract Editorial Technology Object -->
+      <div class="lg:col-span-5 relative flex items-center justify-center min-h-[440px] sm:min-h-[520px]">
+        
+        <!-- Abstract Coral Offset Backing -->
+        <div class="absolute w-56 h-80 sm:w-64 sm:h-96 rounded-[90px] bg-[#FF7658] translate-x-7 translate-y-6 -rotate-6 border-2 border-[#101110] pointer-events-none"></div>
+
+        <!-- Orbital Ring Cobalt -->
+        <div class="absolute w-80 h-80 sm:w-96 sm:h-96 rounded-full border border-dashed border-[#2448FF]/60 animate-orbit-cw pointer-events-none flex items-start justify-center">
+          <div class="w-3.5 h-3.5 rounded-full bg-[#2448FF] border border-[#101110] -translate-y-2"></div>
+        </div>
+
+        <!-- Orbital Ring Coral Accent -->
+        <div class="absolute w-64 h-64 sm:w-80 sm:h-80 rounded-full border border-[#FF7658]/40 animate-orbit-ccw pointer-events-none flex items-end justify-end">
+          <div class="w-3 h-3 rounded-full bg-[#D8FF42] border border-[#101110] translate-x-1 translate-y-1"></div>
+        </div>
+
+        <!-- Central Black Sculptural Capsule -->
+        <div class="relative w-56 h-80 sm:w-64 sm:h-96 rounded-[90px] bg-[#101110] text-[#F4EFE7] border-2 border-[#101110] flex flex-col items-center justify-between p-8 shadow-2xl animate-hero-float z-20 overflow-hidden">
+          
+          <!-- Gloss Edge Shimmer -->
+          <div class="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
+
+          <!-- Top Capsule Notch / Indicator -->
+          <div class="w-full flex justify-between items-center z-10">
+            <span class="w-2 h-2 rounded-full bg-[#D8FF42] animate-pulse"></span>
+            <span class="font-mono-meta text-[9px] tracking-widest text-[#F4EFE7]/60">ELARA ARCH</span>
+            <span class="w-2 h-2 rounded-full bg-[#2448FF]"></span>
+          </div>
+
+          <!-- Monumental Serif "A" -->
+          <div class="my-auto text-center z-10">
+            <div class="font-serif-luxury text-8xl sm:text-9xl font-bold tracking-tighter text-[#F4EFE7] select-none hover:scale-105 transition-transform duration-300">
+              A
+            </div>
+            <div class="font-mono-meta text-[10px] tracking-widest text-[#FF7658] uppercase mt-2">
+              ECOSYSTEM CORE
+            </div>
+          </div>
+
+          <!-- Bottom Capsule Metadata -->
+          <div class="w-full text-center border-t border-white/15 pt-3 z-10">
+            <span class="font-mono-meta text-[9px] text-white/50 tracking-wider">MAPBOX • POSTGIS • STRIPE</span>
+          </div>
+
+        </div>
+
+        <!-- Floating Data Card 1: 10 UK Cities -->
+        <div class="absolute -top-3 -left-4 sm:-left-8 bg-[#F4EFE7] text-[#101110] border-2 border-[#101110] px-4 py-2.5 shadow-offset-cobalt z-30 font-mono-meta text-xs transition-transform hover:-translate-y-1">
+          <span class="block text-[10px] text-[#2448FF] uppercase font-bold">Zone Status</span>
+          <span class="font-bold">Live in / 10 UK cities</span>
+        </div>
+
+        <!-- Floating Data Card 2: Average ETA -->
+        <div class="absolute bottom-10 -right-4 sm:-right-8 bg-[#F4EFE7] text-[#101110] border-2 border-[#101110] px-4 py-2.5 shadow-offset-coral z-30 font-mono-meta text-xs transition-transform hover:-translate-y-1">
+          <span class="block text-[10px] text-[#FF7658] uppercase font-bold">Dynamic Routing</span>
+          <span class="font-bold">Average ETA / 28 min</span>
+        </div>
+
+        <!-- Floating Data Card 3: Single Wallet -->
+        <div class="absolute -bottom-8 left-6 sm:left-12 bg-[#101110] text-[#F4EFE7] border-2 border-[#101110] px-4 py-2.5 shadow-offset-lime z-30 font-mono-meta text-xs transition-transform hover:-translate-y-1">
+          <span class="block text-[10px] text-[#D8FF42] uppercase font-bold">Ledger</span>
+          <span class="font-bold">One wallet / Everyday easy</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 3. MOVING SERVICE MARQUEE ==================== -->
+  <section class="w-full bg-[#101110] text-[#F4EFE7] py-4 border-b border-[#101110] overflow-hidden select-none">
+    <div class="animate-marquee flex items-center space-x-8 text-sm sm:text-base font-mono-meta tracking-wider uppercase font-semibold">
+      
+      <!-- Repeated Track Content 1 -->
+      <span class="flex items-center space-x-8">
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Food Delivery</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Supermarket Groceries</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Courier & Parcel</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Halal Fresh Cut</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">PetalOnTap Flowers</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Cold-Chain Fresh Fish</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">TaskOnTap Marketplace</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Elara Digital Wallet</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+      </span>
+
+      <!-- Repeated Track Content 2 (Seamless loop) -->
+      <span class="flex items-center space-x-8">
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Food Delivery</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Supermarket Groceries</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Courier & Parcel</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Halal Fresh Cut</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">PetalOnTap Flowers</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Cold-Chain Fresh Fish</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">TaskOnTap Marketplace</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+        <span class="hover:text-[#D8FF42] transition-colors cursor-default">Elara Digital Wallet</span>
+        <span class="text-[#FF7658] text-lg">★</span>
+      </span>
+
+    </div>
+  </section>
+
+  <!-- ==================== 4. ECOSYSTEM SECTION ==================== -->
+  <section id="ecosystem" class="py-24 px-5 sm:px-8 lg:px-14 border-b border-[#101110] relative">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between mb-16 pb-8 border-b border-[#101110]">
+        <div class="max-w-2xl">
+          <span class="font-mono-meta text-xs uppercase font-bold text-[#FF7658] tracking-widest block mb-3">
+            01 // THE SEVEN PILLARS
+          </span>
+          <h2 class="text-4xl sm:text-6xl font-black tracking-editorial text-[#101110] leading-tight">
+            Life doesn’t come in <br>
+            <span class="font-serif-luxury italic font-normal text-[#2448FF]">separate tabs.</span>
+          </h2>
+        </div>
+        <p class="mt-6 lg:mt-0 max-w-md text-base text-[#101110]/80 leading-relaxed font-sans">
+          Britain’s high-street merchants, artisan butchers, express couriers, and verified neighborhood taskers. Managed through one native account, one checkout basket, and one unified ledger.
+        </p>
+      </div>
+
+      <!-- Service Filter Pills -->
+      <div class="flex flex-wrap items-center gap-3 mb-12 font-mono-meta text-xs uppercase">
+        <button onclick="filterServices('all')" id="filter-all" class="filter-btn px-5 py-2.5 bg-[#101110] text-white border border-[#101110] font-bold shadow-[3px_3px_0px_0px_#2448FF] transition-all">
+          All Services (07)
+        </button>
+        <button onclick="filterServices('everyday')" id="filter-everyday" class="filter-btn px-5 py-2.5 bg-white text-[#101110] border border-[#101110] hover:bg-[#F4EFE7] transition-all">
+          Everyday Dining & Groceries
+        </button>
+        <button onclick="filterServices('move')" id="filter-move" class="filter-btn px-5 py-2.5 bg-white text-[#101110] border border-[#101110] hover:bg-[#F4EFE7] transition-all">
+          Move & Send
+        </button>
+        <button onclick="filterServices('make')" id="filter-make" class="filter-btn px-5 py-2.5 bg-white text-[#101110] border border-[#101110] hover:bg-[#F4EFE7] transition-all">
+          TaskOnTap & Services
+        </button>
+      </div>
+
+      <!-- Asymmetrical Editorial Cards Layout -->
+      <div id="serviceCardsContainer" class="grid grid-cols-1 md:grid-cols-12 gap-8">
+        
+        <!-- Card 1: Food Delivery (Span 7) -->
+        <div class="service-card md:col-span-7 bg-white border-2 border-[#101110] p-8 lg:p-10 card-editorial flex flex-col justify-between" data-category="everyday">
+          <div>
+            <div class="flex justify-between items-start mb-6">
+              <span class="font-mono-meta text-xs uppercase font-bold px-3 py-1 bg-[#2448FF] text-white border border-[#101110]">
+                VERTICAL 01
+              </span>
+              <span class="font-mono-meta text-xs text-[#101110]/60">15-30 MIN DELIVERY</span>
+            </div>
+            <h3 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 text-[#101110]">
+              Food Delivery
+            </h3>
+            <p class="text-base text-[#101110]/80 leading-relaxed mb-6 font-sans">
+              From historic local pubs and independent curry houses to artisan bakeries. Multi-cart checkout allows dishes from adjacent restaurants in a single courier drop.
+            </p>
+          </div>
+          
+          <div class="pt-6 border-t border-[#101110]/15 flex items-center justify-between font-mono-meta text-xs">
+            <span class="text-[#FF7658] font-bold">22 MERCHANT CATEGORIES</span>
+            <span class="text-[#2448FF] font-bold group-hover:translate-x-2 transition-transform">&rarr; EXPLORE MENU ENGINE</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Parcel & Courier (Span 5) -->
+        <div class="service-card md:col-span-5 bg-[#F4EFE7] border-2 border-[#101110] p-8 lg:p-10 card-editorial flex flex-col justify-between" data-category="move">
+          <div>
+            <div class="flex justify-between items-start mb-6">
+              <span class="font-mono-meta text-xs uppercase font-bold px-3 py-1 bg-[#101110] text-[#D8FF42] border border-[#101110]">
+                VERTICAL 02
+              </span>
+              <span class="font-mono-meta text-xs text-[#101110]/60">MAPBOX ROUTING</span>
+            </div>
+            <h3 class="text-3xl font-extrabold tracking-tight mb-4 text-[#101110]">
+              Courier & Parcel
+            </h3>
+            <p class="text-base text-[#101110]/80 leading-relaxed mb-6 font-sans">
+              Dynamic multi-point pickup and drop across postal districts. Instant cryptographic proof of delivery and live rider telemetry.
+            </p>
+          </div>
+          
+          <div class="pt-6 border-t border-[#101110]/15 flex items-center justify-between font-mono-meta text-xs">
+            <span class="text-[#101110] font-bold">EST. 3-SEC GPS ENGINE</span>
+            <span class="text-[#2448FF] font-bold">&rarr; TRACK</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Freshness / Halal / Fish / Flowers (Span 5) -->
+        <div class="service-card md:col-span-5 bg-white border-2 border-[#101110] p-8 lg:p-10 card-editorial flex flex-col justify-between" data-category="everyday">
+          <div>
+            <div class="flex justify-between items-start mb-6">
+              <span class="font-mono-meta text-xs uppercase font-bold px-3 py-1 bg-[#FF7658] text-white border border-[#101110]">
+                VERTICAL 03, 04 & 05
+              </span>
+              <span class="font-mono-meta text-xs text-[#101110]/60">WEIGHTED PRICING</span>
+            </div>
+            <h3 class="text-3xl font-extrabold tracking-tight mb-4 text-[#101110]">
+              Halal Fresh, Petals & Fishmonger
+            </h3>
+            <p class="text-base text-[#101110]/80 leading-relaxed mb-6 font-sans">
+              Precision weight-based cuts, verified HMC/halal accreditation, cold-chain fresh fish scaling, and same-day bespoke floral arrangements.
+            </p>
+          </div>
+          
+          <div class="pt-6 border-t border-[#101110]/15 flex items-center justify-between font-mono-meta text-xs">
+            <span class="text-[#FF7658] font-bold">COLD DELIVERY SLOTS</span>
+            <span class="text-[#2448FF] font-bold">&rarr; DETAILS</span>
+          </div>
+        </div>
+
+        <!-- Card 4: TaskOnTap Marketplace (Span 7) -->
+        <div class="service-card md:col-span-7 bg-[#101110] text-[#F4EFE7] border-2 border-[#101110] p-8 lg:p-10 card-editorial flex flex-col justify-between" data-category="make">
+          <div>
+            <div class="flex justify-between items-start mb-6">
+              <span class="font-mono-meta text-xs uppercase font-bold px-3 py-1 bg-[#D8FF42] text-[#101110] border border-[#101110]">
+                VERTICAL 06
+              </span>
+              <span class="font-mono-meta text-xs text-white/60">13 CATEGORIES • 102 SUB-SERVICES</span>
+            </div>
+            <h3 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 text-[#F4EFE7]">
+              TaskOnTap (JobTap)
+            </h3>
+            <p class="text-base text-[#F4EFE7]/80 leading-relaxed mb-6 font-sans">
+              Handymen, gas-safe plumbers, mobile barbers, electricians, and cleaning crews. Matching algorithm matches jobs within 20 miles in seconds with 30% escrow protection.
+            </p>
+          </div>
+          
+          <div class="pt-6 border-t border-white/20 flex items-center justify-between font-mono-meta text-xs">
+            <span class="text-[#D8FF42] font-bold">ESCROW VAULT SECURED</span>
+            <span class="text-[#FF7658] font-bold">&rarr; HIRE TASKER</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 5. CONNECTED ECOSYSTEM SECTION ==================== -->
+  <section id="connectivity" class="py-24 px-5 sm:px-8 lg:px-14 bg-[#101110] text-[#F4EFE7] border-b border-[#101110] relative overflow-hidden">
+    
+    <!-- Background Graph Grid -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(#2448FF 1px, transparent 1px), linear-gradient(90deg, #2448FF 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+      
+      <!-- Section Title -->
+      <div class="text-center max-w-3xl mx-auto mb-20">
+        <span class="font-mono-meta text-xs uppercase font-bold text-[#D8FF42] tracking-widest block mb-4">
+          02 // FIVE SIDES OF ONE ENGINE
+        </span>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-editorial leading-tight">
+          One central heartbeat. <br>
+          <span class="font-serif-luxury italic font-normal text-[#FF7658]">Five interconnected worlds.</span>
+        </h2>
+        <p class="mt-6 text-[#F4EFE7]/70 font-sans text-base leading-relaxed">
+          The customer places an order. The merchant prints it via POS. The rider navigates with Mapbox turn-by-turn. The tasker is secured through escrow. The admin oversees the entire UK grid in real time.
+        </p>
+      </div>
+
+      <!-- Central Node Graph Visualization -->
+      <div class="relative py-12 flex flex-col items-center">
+        
+        <!-- Central Pulsing Core "A" -->
+        <div class="relative z-20 mb-16">
+          <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#FF7658] text-[#101110] border-4 border-[#F4EFE7] flex items-center justify-center font-serif-luxury text-5xl font-bold shadow-2xl relative">
+            A
+            <div class="absolute inset-0 rounded-full bg-[#FF7658] pulse-ring pointer-events-none"></div>
+          </div>
+          <div class="text-center font-mono-meta text-[11px] text-[#D8FF42] mt-3 tracking-widest uppercase">
+            ELARA CORE DISPATCH
+          </div>
+        </div>
+
+        <!-- 5 Floating Role Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 w-full">
+          
+          <!-- Role 1: Customer -->
+          <div class="bg-[#181918] border border-white/20 p-6 rounded-none relative group hover:border-[#2448FF] hover:-translate-y-2 transition-all">
+            <div class="font-mono-meta text-[10px] text-[#2448FF] uppercase font-bold mb-2">PARTICIPANT 01</div>
+            <h4 class="text-xl font-bold mb-2 text-white">Customer App</h4>
+            <p class="text-xs text-white/60 leading-relaxed font-sans mb-4">
+              Single unified interface for all 7 modules, scheduled deliveries, in-app customer support, and instant wallet top-ups.
+            </p>
+            <div class="font-mono-meta text-[10px] text-[#FF7658]">FLUTTER CLIENT</div>
+          </div>
+
+          <!-- Role 2: Merchant -->
+          <div class="bg-[#181918] border border-white/20 p-6 rounded-none relative group hover:border-[#FF7658] hover:-translate-y-2 transition-all">
+            <div class="font-mono-meta text-[10px] text-[#FF7658] uppercase font-bold mb-2">PARTICIPANT 02</div>
+            <h4 class="text-xl font-bold mb-2 text-white">ElaraBiz</h4>
+            <p class="text-xs text-white/60 leading-relaxed font-sans mb-4">
+              POS printer integration, live inventory management, dynamic prep-time adjustments, and automatic next-day bank payouts.
+            </p>
+            <div class="font-mono-meta text-[10px] text-[#D8FF42]">MERCHANT POS ENGINE</div>
+          </div>
+
+          <!-- Role 3: Rider -->
+          <div class="bg-[#181918] border border-white/20 p-6 rounded-none relative group hover:border-[#D8FF42] hover:-translate-y-2 transition-all">
+            <div class="font-mono-meta text-[10px] text-[#D8FF42] uppercase font-bold mb-2">PARTICIPANT 03</div>
+            <h4 class="text-xl font-bold mb-2 text-white">TapMate Rider</h4>
+            <p class="text-xs text-white/60 leading-relaxed font-sans mb-4">
+              Multi-vertical delivery dispatch, surge bonuses, 3-sec GPS telemetry, and TikTok-style social video creator feed.
+            </p>
+            <div class="font-mono-meta text-[10px] text-[#2448FF]">MAPBOX NAVIGATION</div>
+          </div>
+
+          <!-- Role 4: Tasker -->
+          <div class="bg-[#181918] border border-white/20 p-6 rounded-none relative group hover:border-[#2448FF] hover:-translate-y-2 transition-all">
+            <div class="font-mono-meta text-[10px] text-[#2448FF] uppercase font-bold mb-2">PARTICIPANT 04</div>
+            <h4 class="text-xl font-bold mb-2 text-white">JobTap Tasker</h4>
+            <p class="text-xs text-white/60 leading-relaxed font-sans mb-4">
+              Instant local task alerts within 20 miles, portfolio showcase, quote negotiation, and guaranteed 30% upfront escrow release.
+            </p>
+            <div class="font-mono-meta text-[10px] text-[#FF7658]">ESCROW PROTECTION</div>
+          </div>
+
+          <!-- Role 5: Admin -->
+          <div class="bg-[#181918] border border-white/20 p-6 rounded-none relative group hover:border-[#F4EFE7] hover:-translate-y-2 transition-all">
+            <div class="font-mono-meta text-[10px] text-white/60 uppercase font-bold mb-2">PARTICIPANT 05</div>
+            <h4 class="text-xl font-bold mb-2 text-white">Super Admin</h4>
+            <p class="text-xs text-white/60 leading-relaxed font-sans mb-4">
+              Five administrative panels: Super Admin, Dispatch Center, Task Moderation, KYC Compliance, and CMS programmatic pages.
+            </p>
+            <div class="font-mono-meta text-[10px] text-[#D8FF42]">CENTRAL CONTROL</div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 6. ENTERPRISE FOUNDATION SECTION ==================== -->
+  <section id="foundation" class="py-24 px-5 sm:px-8 lg:px-14 border-b border-[#101110] relative">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="mb-16">
+        <span class="font-mono-meta text-xs uppercase font-bold text-[#2448FF] tracking-widest block mb-3">
+          03 // THE ENGINEERING FABRIC
+        </span>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-editorial text-[#101110] leading-tight">
+          Beautifully simple. <br>
+          <span class="font-serif-luxury italic font-normal text-[#FF7658]">Seriously built.</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <!-- Left: Editorial Code Window Panel -->
+        <div class="lg:col-span-7 bg-[#101110] text-[#F4EFE7] border-2 border-[#101110] shadow-offset-cobalt overflow-hidden font-mono-meta text-xs">
+          
+          <!-- Terminal Header -->
+          <div class="bg-[#1A1C1A] px-4 py-3 border-b border-white/10 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="w-3 h-3 rounded-full bg-[#FF7658]"></span>
+              <span class="w-3 h-3 rounded-full bg-[#D8FF42]"></span>
+              <span class="w-3 h-3 rounded-full bg-[#2448FF]"></span>
+              <span class="text-white/60 text-[11px] ml-2">elara-core-backend // architecture.ts</span>
+            </div>
+            <span class="text-[#D8FF42] text-[10px]">PRODUCTION-READY</span>
+          </div>
+
+          <!-- Code Content -->
+          <div class="p-6 overflow-x-auto leading-relaxed">
+            <pre class="text-[#F4EFE7]"><span class="text-white/40">// 11 NestJS Microservices Monorepo Core Topology</span>
+<span class="text-[#FF7658]">export const</span> <span class="text-[#D8FF42]">ElaraStack</span> = {
+  <span class="text-[#2448FF]">framework</span>: <span class="text-[#F4EFE7]">'NestJS 10 (TypeScript)'</span>,
+  <span class="text-[#2448FF]">database</span>: <span class="text-[#F4EFE7]">'PostgreSQL 15 + PostGIS 3.3 (Geospatial)'</span>,
+  <span class="text-[#2448FF]">cache_queue</span>: <span class="text-[#F4EFE7]">'Redis 7 + BullMQ Background Workers'</span>,
+  <span class="text-[#2448FF]">discovery</span>: <span class="text-[#F4EFE7]">'Typesense 0.25 (Sub-millisecond Search)'</span>,
+  <span class="text-[#2448FF]">payments</span>: <span class="text-[#F4EFE7]">'Stripe Connect Express + Open Banking'</span>,
+  <span class="text-[#2448FF]">geo_telemetry</span>: <span class="text-[#F4EFE7]">'Mapbox SDK + 3-sec GPS Buffer'</span>,
+  <span class="text-[#2448FF]">storage</span>: <span class="text-[#F4EFE7]">'AWS S3 + CloudFront (MinIO Dev)'</span>,
+  <span class="text-[#2448FF]">services</span>: [
+    <span class="text-[#D8FF42]'">'api-gateway'</span>,     <span class="text-white/40">// Central proxy & rate limit</span>
+    <span class="text-[#D8FF42]'">'auth-service'</span>,    <span class="text-white/40">// JWT & Argon2 RBAC</span>
+    <span class="text-[#D8FF42]'">'ecommerce-service'</span>,<span class="text-white/40">// Multi-cart & inventory</span>
+    <span class="text-[#D8FF42]'">'logistics-service'</span>,<span class="text-white/40">// Dispatch & Socket.io</span>
+    <span class="text-[#D8FF42]'">'jobtap-service'</span>,   <span class="text-white/40">// Tasker matching engine</span>
+    <span class="text-[#D8FF42]'">'payment-service'</span>,  <span class="text-white/40">// Escrow & Digital Wallet</span>
+  ]
+};</pre>
+          </div>
+
+          <!-- Status Bar -->
+          <div class="bg-[#1A1C1A] px-4 py-2 border-t border-white/10 flex justify-between items-center text-[10px] text-white/50">
+            <span>PORT 3000 // REVERSE GATEWAY</span>
+            <span class="text-[#2448FF]">STATUS: ONLINE (HEALTHCHECK 200 OK)</span>
+          </div>
+
+        </div>
+
+        <!-- Right: Architecture Explanations & Metric Counters -->
+        <div class="lg:col-span-5 flex flex-col justify-between h-full">
+          
+          <div>
+            <h3 class="text-2xl font-bold tracking-tight mb-4 text-[#101110]">
+              Decoupled Microservices, Shared Event Fabric.
+            </h3>
+            <p class="text-base text-[#101110]/80 leading-relaxed font-sans mb-8">
+              Engineered with clean separation of concerns. While each engine operates independently with its own bounded context, Redis Pub/Sub drives instant event propagation for order placement, rider dispatch, and escrow release.
+            </p>
+          </div>
+
+          <!-- Animated Metrics Grid -->
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-[#101110]/20">
+            
+            <div class="border border-[#101110] p-5 bg-white shadow-offset-coral">
+              <div class="text-4xl font-black font-mono-meta text-[#2448FF] mb-1" id="metric-entities">67+</div>
+              <div class="font-mono-meta text-xs uppercase text-[#101110]/70 font-semibold">Database Entities</div>
+            </div>
+
+            <div class="border border-[#101110] p-5 bg-white shadow-offset-ink">
+              <div class="text-4xl font-black font-mono-meta text-[#FF7658] mb-1" id="metric-cities">10</div>
+              <div class="font-mono-meta text-xs uppercase text-[#101110]/70 font-semibold">Major UK Cities</div>
+            </div>
+
+            <div class="border border-[#101110] p-5 bg-white shadow-offset-lime">
+              <div class="text-4xl font-black font-mono-meta text-[#101110] mb-1" id="metric-merchants">22</div>
+              <div class="font-mono-meta text-xs uppercase text-[#101110]/70 font-semibold">Merchant Categories</div>
+            </div>
+
+            <div class="border border-[#101110] p-5 bg-white shadow-offset-cobalt">
+              <div class="text-4xl font-black font-mono-meta text-[#2448FF] mb-1" id="metric-tasks">102</div>
+              <div class="font-mono-meta text-xs uppercase text-[#101110]/70 font-semibold">TaskOnTap Sub-Services</div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 7. MANIFESTO SECTION ==================== -->
+  <section class="py-28 px-5 sm:px-8 lg:px-14 bg-[#2448FF] text-white relative overflow-hidden select-none border-b border-[#101110]">
+    
+    <!-- Ghost Background Manifesto Typography -->
+    <div class="absolute inset-0 pointer-events-none flex items-center justify-center opacity-10">
+      <span class="text-[18vw] font-black tracking-tight text-white font-sans uppercase">
+        local / together
+      </span>
+    </div>
+
+    <div class="max-w-5xl mx-auto relative z-10 text-center flex flex-col items-center">
+      
+      <span class="font-mono-meta text-xs uppercase tracking-widest text-[#D8FF42] mb-6 block font-bold">
+        OUR MANIFESTO
+      </span>
+
+      <!-- Large White Editorial Headline -->
+      <h2 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-editorial leading-tight mb-8">
+        “The best technology feels like belonging.”
+      </h2>
+
+      <p class="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed font-sans mb-12">
+        We do not believe in fragmented silos that isolate local merchants, gig workers, and neighbors. Elara binds every corner of British daily life into a shared, dignified platform where everyone earns fairly and moves freely.
+      </p>
+
+      <a href="#waitlist" class="px-9 py-4 bg-[#101110] text-[#D8FF42] hover:bg-white hover:text-[#101110] font-mono-meta text-xs uppercase font-bold tracking-wider border-2 border-white shadow-[6px_6px_0px_0px_#D8FF42] transition-all">
+        Make room for more &rarr;
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ==================== 8. WAITLIST / DEMO SECTION ==================== -->
+  <section id="waitlist" class="py-24 px-5 sm:px-8 lg:px-14 bg-[#101110] text-[#F4EFE7] relative">
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- Section Title -->
+      <div class="text-center mb-16">
+        <span class="font-mono-meta text-xs uppercase font-bold text-[#FF7658] tracking-widest block mb-3">
+          EARLY ADOPTERS & MERCHANTS
+        </span>
+        <h2 class="text-4xl sm:text-6xl font-black tracking-editorial leading-tight text-[#F4EFE7]">
+          Let’s make everyday, <br>
+          <span class="font-serif-luxury italic font-normal text-[#D8FF42]">better.</span>
+        </h2>
+        <p class="mt-4 text-white/70 font-sans text-sm sm:text-base max-w-lg mx-auto">
+          Sign up to access the Elara Customer Beta, apply as an early merchant partner in your city, or register your fleet.
+        </p>
+      </div>
+
+      <!-- Refined Minimalist Form -->
+      <div class="bg-[#181918] border-2 border-white/20 p-8 sm:p-12 relative shadow-offset-coral">
+        
+        <form id="waitlistForm" onsubmit="handleWaitlistSubmit(event)" class="space-y-6">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            
+            <!-- Full Name -->
+            <div>
+              <label for="fullName" class="block font-mono-meta text-xs uppercase text-white/70 mb-2 font-semibold">
+                Your Name
+              </label>
+              <input type="text" id="fullName" required placeholder="e.g. Alistair Vance" class="w-full bg-[#101110] border border-white/20 text-white px-4 py-3 text-sm focus:outline-none focus:border-[#2448FF] transition-colors font-sans placeholder-white/30">
+            </div>
+
+            <!-- Email Address -->
+            <div>
+              <label for="emailAddress" class="block font-mono-meta text-xs uppercase text-white/70 mb-2 font-semibold">
+                Email Address
+              </label>
+              <input type="email" id="emailAddress" required placeholder="name@domain.co.uk" class="w-full bg-[#101110] border border-white/20 text-white px-4 py-3 text-sm focus:outline-none focus:border-[#2448FF] transition-colors font-sans placeholder-white/30">
+            </div>
+
+          </div>
+
+          <!-- Role / Joining As Dropdown -->
+          <div>
+            <label for="joiningRole" class="block font-mono-meta text-xs uppercase text-white/70 mb-2 font-semibold">
+              Joining As
+            </label>
+            <select id="joiningRole" class="w-full bg-[#101110] border border-white/20 text-white px-4 py-3 text-sm focus:outline-none focus:border-[#2448FF] transition-colors font-sans">
+              <option value="customer">Customer (Early App Access & Perks)</option>
+              <option value="merchant">Merchant Partner (Restaurant, Butcher, Florist, Supermarket)</option>
+              <option value="rider">Rider / Delivery Partner (TapMate Fleet)</option>
+              <option value="tasker">Independent Tasker (TaskOnTap Tradesperson)</option>
+              <option value="investor">Enterprise / Investor Inquiries</option>
+            </select>
+          </div>
+
+          <!-- Location Input -->
+          <div>
+            <label for="cityLocation" class="block font-mono-meta text-xs uppercase text-white/70 mb-2 font-semibold">
+              Primary UK City / Postcode Area
+            </label>
+            <input type="text" id="cityLocation" placeholder="e.g. London (SW1), Manchester (M1), Birmingham (B1)" class="w-full bg-[#101110] border border-white/20 text-white px-4 py-3 text-sm focus:outline-none focus:border-[#2448FF] transition-colors font-sans placeholder-white/30">
+          </div>
+
+          <!-- Submit Action -->
+          <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span class="font-mono-meta text-[11px] text-white/40">
+              * STRICT PRIVACY GUARANTEE. NO THIRD-PARTY SPAM.
+            </span>
+
+            <button type="submit" id="submitBtn" class="w-full sm:w-auto px-9 py-4 bg-[#2448FF] hover:bg-[#FF7658] text-white font-mono-meta text-xs uppercase font-bold tracking-wider border border-[#101110] shadow-[4px_4px_0px_0px_#F4EFE7] transition-all">
+              Keep me in the loop &rarr;
+            </button>
+          </div>
+
+        </form>
+
+        <!-- Polished Success State (Hidden initially) -->
+        <div id="successState" class="hidden text-center py-10">
+          <div class="w-16 h-16 rounded-full bg-[#D8FF42] text-[#101110] text-3xl font-bold flex items-center justify-center mx-auto mb-6">
+            ✓
+          </div>
+          <h3 class="text-3xl font-extrabold text-white mb-3 tracking-tight">
+            You're on the list.
+          </h3>
+          <p class="text-white/70 text-sm max-w-md mx-auto mb-6 font-sans">
+            We’ve registered your priority invite. Check your inbox for our architectural whitepaper and regional rollout schedule.
+          </p>
+          <button onclick="resetWaitlistForm()" class="px-6 py-2.5 bg-transparent border border-white/30 text-white font-mono-meta text-xs uppercase hover:bg-white/10 transition-colors">
+            Register another role &rarr;
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-[#101110] text-[#F4EFE7] border-t border-white/15 py-16 px-5 sm:px-8 lg:px-14 font-mono-meta text-xs">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-white/10">
+      
+      <!-- Brand & Mission -->
+      <div class="md:col-span-5 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-8 h-8 rounded-full bg-[#2448FF] text-white flex items-center justify-center font-serif-luxury font-bold">
+              A
+            </div>
+            <span class="font-bold text-xl text-white tracking-tight">Elara</span>
+          </div>
+          <p class="text-white/60 leading-relaxed font-sans text-sm max-w-sm mb-6">
+            British Super App ecosystem. Connecting food, groceries, parcels, halal fresh, flowers, fish, taskers, and payments into one single tap.
+          </p>
+        </div>
+        <div class="text-[11px] text-white/40">
+          &copy; 2026 ELARA ECOSYSTEM LTD. ALL RIGHTS RESERVED.
+        </div>
+      </div>
+
+      <!-- Links 1: Platform -->
+      <div class="md:col-span-2 space-y-3">
+        <div class="text-[#FF7658] font-bold uppercase mb-4">Platform</div>
+        <div><a href="#ecosystem" class="text-white/70 hover:text-white transition-colors">Food Delivery</a></div>
+        <div><a href="#ecosystem" class="text-white/70 hover:text-white transition-colors">Supermarket</a></div>
+        <div><a href="#ecosystem" class="text-white/70 hover:text-white transition-colors">Courier & Parcel</a></div>
+        <div><a href="#ecosystem" class="text-white/70 hover:text-white transition-colors">Halal Fresh Cut</a></div>
+        <div><a href="#ecosystem" class="text-white/70 hover:text-white transition-colors">TaskOnTap Marketplace</a></div>
+      </div>
+
+      <!-- Links 2: Architecture -->
+      <div class="md:col-span-3 space-y-3">
+        <div class="text-[#D8FF42] font-bold uppercase mb-4">Core Infrastructure</div>
+        <div><span class="text-white/70">NestJS 10 Monorepo</span></div>
+        <div><span class="text-white/70">PostgreSQL + PostGIS 3.3</span></div>
+        <div><span class="text-white/70">Typesense Search Node</span></div>
+        <div><span class="text-white/70">Stripe Connect & Open Banking</span></div>
+        <div><span class="text-white/70">Mapbox Dynamic Dispatch</span></div>
+      </div>
+
+      <!-- Links 3: Contact & Legal -->
+      <div class="md:col-span-2 space-y-3">
+        <div class="text-[#2448FF] font-bold uppercase mb-4">Cities</div>
+        <div class="text-white/70">London • Manchester</div>
+        <div class="text-white/70">Birmingham • Leeds</div>
+        <div class="text-white/70">Glasgow • Liverpool</div>
+        <div class="text-white/70">Bristol • Edinburgh</div>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-white/40">
+      <span>UNITED KINGDOM JURISDICTION // REGISTERED SUPER APP PLATFORM</span>
+      <span class="mt-2 sm:mt-0">DESIGNED WITH HIGH-FASHION EDITORIAL DIRECTION</span>
+    </div>
+  </footer>
+
+  <!-- ==================== CLIENT INTERACTION JAVASCRIPT ==================== -->
+  <script>
+    // 1. Mobile Menu Drawer Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    if (mobileMenuBtn && mobileDrawer) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileDrawer.classList.toggle('hidden');
+      });
+    }
+
+    // 2. Filter Service Cards Logic
+    function filterServices(category) {
+      // Toggle button active styles
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-[#101110]', 'text-white', 'shadow-[3px_3px_0px_0px_#2448FF]');
+        btn.classList.add('bg-white', 'text-[#101110]');
+      });
+
+      const activeBtn = document.getElementById('filter-' + category);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-white', 'text-[#101110]');
+        activeBtn.classList.add('bg-[#101110]', 'text-white', 'shadow-[3px_3px_0px_0px_#2448FF]');
+      }
+
+      // Filter visible cards
+      const cards = document.querySelectorAll('.service-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'flex';
+          card.classList.add('animate-fade-in');
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 3. Form Submission Simulation & Toast Notification
+    function handleWaitlistSubmit(event) {
+      event.preventDefault();
+      const submitBtn = document.getElementById('submitBtn');
+      const form = document.getElementById('waitlistForm');
+      const successState = document.getElementById('successState');
+
+      submitBtn.innerHTML = 'Securing spot...';
+      submitBtn.disabled = true;
+
+      setTimeout(() => {
+        form.classList.add('hidden');
+        successState.classList.remove('hidden');
+      }, 700);
+    }
+
+    function resetWaitlistForm() {
+      const form = document.getElementById('waitlistForm');
+      const successState = document.getElementById('successState');
+      const submitBtn = document.getElementById('submitBtn');
+
+      form.reset();
+      form.classList.remove('hidden');
+      successState.classList.add('hidden');
+      submitBtn.innerHTML = 'Keep me in the loop &rarr;';
+      submitBtn.disabled = false;
+    }
+
+    // 4. Smooth Anchor Scrolling for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (targetId && targetId !== '#') {
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            e.preventDefault();
+            if (mobileDrawer && !mobileDrawer.classList.contains('hidden')) {
+              mobileDrawer.classList.add('hidden');
+            }
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
