@@ -1,0 +1,27 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsOptional, IsNumber, IsBoolean } from 'class-validator';
+
+export class CreateFaqDto {
+  @ApiProperty({ description: 'Question' })
+  @IsString()
+  question: string;
+
+  @ApiProperty({ description: 'Answer' })
+  @IsString()
+  answer: string;
+
+  @ApiProperty({ description: 'Category', required: false })
+  @IsString()
+  @IsOptional()
+  category?: string;
+
+  @ApiProperty({ description: 'Sort order', required: false })
+  @IsNumber()
+  @IsOptional()
+  sortOrder?: number;
+
+  @ApiProperty({ description: 'Is active', required: false })
+  @IsBoolean()
+  @IsOptional()
+  isActive?: boolean;
+}
