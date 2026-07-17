@@ -1,0 +1,443 @@
+services:
+  # PostgreSQL 15 + PostGIS
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: elara-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: elara_dev
+      POSTGRES_USER: elara
+      POSTGRES_PASSWORD: elara123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backups:/backups
+    networks:
+      - elara-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U elara"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis 7
+  redis:
+    image: redis:7-alpine
+    container_name: elara-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --requirepass redis_password_dev
+    networks:
+      - elara-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Typesense Search Engine
+  typesense:
+    image: typesense/typesense:0.25.1
+    container_name: elara-typesense
+    restart: unless-stopped
+    environment:
+      TYPESENSE_DATA_DIR: /data
+      TYPESENSE_API_KEY: dev_typesense_key
+    ports:
+      - "8108:8108"
+    volumes:
+      - typesense_data:/data
+    networks:
+      - elara-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8108/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # MinIO (S3-compatible storage for local development)
+  minio:
+    image: minio/minio:latest
+    container_name: elara-minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - elara-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # pgAdmin - Database Management UI
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: elara-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@elara.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - elara-network
+    depends_on:
+      - postgres
+
+  # API Gateway
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: api-gateway
+    container_name: elara-api-gateway
+    restart: unless-stopped
+    command: ["node", "dist/apps/api-gateway/main.js"]
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: elara
+      DB_PASSWORD: elara123
+      DB_NAME: elara_dev
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: redis_password_dev
+    ports:
+      - "3000:3000"
+    networks:
+      - elara-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # Auth Service
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: auth-service
+    container_name: elara-auth-service
+    restart: unless-stopped
+    command: ["node", "dist/apps/auth-service/main.js"]
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: elara
+      DB_PASSWORD: elara123
+      DB_NAME: elara_dev
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: redis_password_dev
+      JWT_SECRET: your-super-secret-jwt-key-change-in-production
+      JWT_EXPIRATION: 7d
+    ports:
+      - "3001:3001"
+    networks:
+      - elara-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+
+  # Payment Service
+  payment-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: payment-service
+    container_name: elara-payment-service
+    restart: unless-stopped
+    command: ["node", "dist/apps/payment-service/main.js"]
+    environment:
+      NODE_ENV: production
+      PORT: 3003
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: elara
+      DB_PASSWORD: elara123
+      DB_NAME: elara_dev
+      STRIPE_SECRET_KEY: sk_test_your_stripe_key
+      PAYSTACK_SECRET_KEY: sk_test_your_paystack_key
+      FLUTTERWAVE_SECRET_KEY: your_flutterwave_key
+    ports:
+      - "3003:3003"
+    networks:
+      - elara-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Notification Service
+  notification-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: notification-service
+    container_name: elara-notification-service
+    restart: unless-stopped
+    command: ["node", "dist/apps/notification-service/main.js"]
+    environment:
+      NODE_ENV: production
+      PORT: 3004
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: elara
+      DB_PASSWORD: elara123
+      DB_NAME: elara_dev
+      SMTP_HOST: smtp.gmail.com
+      SMTP_PORT: 587
+      SMTP_USER: your-email@gmail.com
+      SMTP_PASSWORD: your-app-password
+      TWILIO_ACCOUNT_SID: your_twilio_sid
+      TWILIO_AUTH_TOKEN: your_twilio_token
+      TWILIO_PHONE_NUMBER: your_twilio_number
+      FCM_SERVER_KEY: your_fcm_server_key
+    ports:
+      - "3004:3004"
+    networks:
+      - elara-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Media Service
+  media-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: media-service
+    container_name: elara-media-service
+    restart: unless-stopped
+    command: ["node", "dist/apps/media-service/main.js"]
+    environment:
+      NODE_ENV: production
+      PORT: 3005
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: elara
+      DB_PASSWORD: elara123
+      DB_NAME: elara_dev
+      AWS_ACCESS_KEY_ID: minioadmin
+      AWS_SECRET_ACCESS_KEY: minioadmin123
+      AWS_ENDPOINT: http://minio:9000
+      AWS_REGION: us-east-1
+      AWS_S3_BUCKET: elara-media
+      STORAGE_PROVIDER: local
+      UPLOAD_DIR: ./uploads
+    ports:
+      - "3005:3005"
+    volumes:
+      - media_uploads:/app/uploads
+    networks:
+      - elara-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+  # E-Commerce Service
+  ecommerce-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: ecommerce-service
+    container_name: elara-ecommerce-service
+    restart: unless-stopped
+    command: ["node", "dist/apps/ecommerce-service/main.js"]
+    environment:
+      NODE_ENV: production
+      PORT: 3006
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: elara
+      DB_PASSWORD: elara123
+      DB_NAME: elara_dev
+    ports:
+      - "3006:3006"
+    networks:
+      - elara-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Logistics Service
+  logistics-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: logistics-service
+    container_name: elara-logistics-service
+    restart: unless-stopped
+    command: ["node", "dist/apps/logistics-service/main.js"]
+    environment:
+      NODE_ENV: production
+      PORT: 3009
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: elara
+      DB_PASSWORD: elara123
+      DB_NAME: elara_dev
+    ports:
+      - "3009:3009"
+    networks:
+      - elara-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # JobTap Service
+  jobtap-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: jobtap-service
+    container_name: elara-jobtap-service
+    restart: unless-stopped
+    command: ["node", "dist/apps/jobtap-service/main.js"]
+    environment:
+      NODE_ENV: production
+      PORT: 3010
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: elara
+      DB_PASSWORD: elara123
+      DB_NAME: elara_dev
+    ports:
+      - "3010:3010"
+    networks:
+      - elara-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Search Service
+  search-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: search-service
+    container_name: elara-search-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3011
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: elara
+      DB_PASSWORD: elara123
+      DB_NAME: elara_dev
+      TYPESENSE_HOST: typesense
+      TYPESENSE_PORT: 8108
+      TYPESENSE_API_KEY: dev_typesense_key
+    ports:
+      - "3011:3011"
+    networks:
+      - elara-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      typesense:
+        condition: service_healthy
+
+  # Website Service
+  website-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: website-service
+    container_name: elara-website-service
+    restart: unless-stopped
+    command: ["node", "dist/apps/website-service/main.js"]
+    environment:
+      NODE_ENV: production
+      PORT: 3012
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: elara
+      DB_PASSWORD: elara123
+      DB_NAME: elara_dev
+    ports:
+      - "3012:3012"
+    networks:
+      - elara-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Admin Service
+  admin-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_NAME: admin-service
+    container_name: elara-admin-service
+    restart: unless-stopped
+    command: ["node", "dist/apps/admin-service/main.js"]
+    environment:
+      NODE_ENV: production
+      PORT: 3013
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: elara
+      DB_PASSWORD: elara123
+      DB_NAME: elara_dev
+    ports:
+      - "3013:3013"
+    networks:
+      - elara-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  typesense_data:
+    driver: local
+  minio_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+  media_uploads:
+    driver: local
+
+networks:
+  elara-network:
+    driver: bridge
