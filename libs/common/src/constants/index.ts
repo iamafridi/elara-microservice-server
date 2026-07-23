@@ -1,0 +1,28 @@
+export const CONSTANTS = {
+  JWT: {
+    ACCESS_TOKEN_EXPIRY: '15m',
+    REFRESH_TOKEN_EXPIRY: '30d',
+  },
+  PAGINATION: {
+    DEFAULT_PAGE: 1,
+    DEFAULT_LIMIT: 20,
+    MAX_LIMIT: 100,
+  },
+  CACHE: {
+    DEFAULT_TTL: 300, // 5 minutes
+    SESSION_TTL: 900, // 15 minutes
+    REFRESH_TOKEN_TTL: 2592000, // 30 days
+  },
+  RIDER: {
+    LOCATION_UPDATE_INTERVAL: 3000, // 3 seconds
+    ACCEPTANCE_TIMEOUT: 20, // 20 seconds
+    DEFAULT_RADIUS_KM: 5,
+  },
+  TASKER: {
+    DEFAULT_RADIUS_MILES: 15,
+    ESCROW_DEPOSIT_PERCENT: 30,
+  },
+  ORDER: {
+    AUTO_CANCEL_TIMEOUT: 420, // 7 minutes
+  },
+};
