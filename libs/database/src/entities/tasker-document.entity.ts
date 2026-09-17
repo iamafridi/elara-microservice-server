@@ -1,0 +1,32 @@
+import { Entity, Column, Index } from 'typeorm';
+import { BaseEntity } from './base.entity';
+import { DocumentType, DocumentStatus } from './user-document.entity';
+
+@Entity('tasker_documents')
+@Index(['taskerId'])
+@Index(['status'])
+export class TaskerDocument extends BaseEntity {
+  @Column({ type: 'uuid' })
+  taskerId: string;
+
+  @Column({ type: 'enum', enum: DocumentType })
+  type: DocumentType;
+
+  @Column({ type: 'varchar', length: 500 })
+  url: string;
+
+  @Column({ type: 'enum', enum: DocumentStatus, default: DocumentStatus.PENDING })
+  status: DocumentStatus;
+
+  @Column({ type: 'date', nullable: true })
+  expiryDate?: Date;
+
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  rejectionReason?: string;
+
+  @Column({ type: 'uuid', nullable: true })
+  verifiedByAdminId?: string;
+
+  @Column({ type: 'timestamp with time zone', nullable: true })
+  verifiedAt?: Date;
+}
