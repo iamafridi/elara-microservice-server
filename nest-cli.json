@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": false,
+    "tsConfigPath": "tsconfig.json"
+  },
+  "monorepo": true,
+  "root": "apps/api-gateway",
+  "projects": {
+    "api-gateway": {
+      "type": "application",
+      "root": "apps/api-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+      }
+    },
+    "auth-service": {
+      "type": "application",
+      "root": "apps/auth-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/auth-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/auth-service/tsconfig.app.json"
+      }
+    },
+    "ecommerce-service": {
+      "type": "application",
+      "root": "apps/ecommerce-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/ecommerce-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/ecommerce-service/tsconfig.app.json"
+      }
+    },
+    "logistics-service": {
+      "type": "application",
+      "root": "apps/logistics-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/logistics-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/logistics-service/tsconfig.app.json"
+      }
+    },
+    "jobtap-service": {
+      "type": "application",
+      "root": "apps/jobtap-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/jobtap-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/jobtap-service/tsconfig.app.json"
+      }
+    },
+    "payment-service": {
+      "type": "application",
+      "root": "apps/payment-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/payment-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/payment-service/tsconfig.app.json"
+      }
+    },
+    "notification-service": {
+      "type": "application",
+      "root": "apps/notification-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/notification-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/notification-service/tsconfig.app.json"
+      }
+    },
+    "media-service": {
+      "type": "application",
+      "root": "apps/media-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/media-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/media-service/tsconfig.app.json"
+      }
+    },
+    "search-service": {
+      "type": "application",
+      "root": "apps/search-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/search-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/search-service/tsconfig.app.json"
+      }
+    },
+    "website-service": {
+      "type": "application",
+      "root": "apps/website-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/website-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/website-service/tsconfig.app.json"
+      }
+    },
+    "admin-service": {
+      "type": "application",
+      "root": "apps/admin-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/admin-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/admin-service/tsconfig.app.json"
+      }
+    }
+  }
+}
