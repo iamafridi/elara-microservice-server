@@ -1,0 +1,25 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "..",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "^@/(.*)$": "<rootDir>/$1",
+    "^@app/(.*)$": "<rootDir>/apps/$1",
+    "^@libs/(.*)$": "<rootDir>/libs/$1"
+  },
+  "coverageDirectory": "./coverage-e2e",
+  "collectCoverageFrom": [
+    "apps/**/*.ts",
+    "libs/**/*.ts",
+    "!**/*.spec.ts",
+    "!**/*.e2e-spec.ts",
+    "!**/node_modules/**",
+    "!**/dist/**"
+  ],
+  "setupFilesAfterEnv": ["<rootDir>/test/setup.ts"],
+  "testTimeout": 30000
+}
