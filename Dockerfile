@@ -1,77 +1,43 @@
-# Base stage
-FROM node:20-alpine AS base
-
-# Install pnpm
-RUN npm install -g pnpm@10.18.3
+# Build stage
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-
-# Dependencies stage
-FROM base AS dependencies
-
-# Copy all package.json files from workspace
-COPY apps/*/package.json ./apps/
-COPY libs/*/package.json ./libs/
-
-# Install dependencies
-RUN pnpm install --frozen-lockfile
-
-# Builder stage
-FROM base AS builder
-
-# Install build dependencies for native modules (argon2, bcrypt, etc.)
+# Install native build tools for compiling argon2 / bcrypt
 RUN apk add --no-cache python3 make g++
 
-# Copy all package.json files
-COPY apps/*/package.json ./apps/
-COPY libs/*/package.json ./libs/
+# Copy package management files
+COPY package*.json ./
+COPY nest-cli.json tsconfig*.json ./
 
-# Install ALL dependencies using npm (not pnpm) to avoid build script blocking
-# npm will properly build native modules
+# Install all dependencies
 RUN npm install --legacy-peer-deps
 
-# Copy source code
-COPY . .
+# Copy source code and library modules
+COPY apps ./apps
+COPY libs ./libs
+COPY scripts ./scripts
 
-# Build argument for which service to build
-ARG SERVICE_NAME
+# Build target microservice (defaults to api-gateway)
+ARG SERVICE_NAME=api-gateway
+ENV SERVICE_NAME=${SERVICE_NAME}
 
-# Build the specific service
-RUN pnpm exec nest build ${SERVICE_NAME}
+RUN npx nest build ${SERVICE_NAME}
 
-# Production stage
-FROM node:20-alpine AS production
-
-# Install pnpm
-RUN npm install -g pnpm@10.18.3
+# Production runtime stage
+FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-# Copy package files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-
-# Copy all package.json files
-COPY apps/*/package.json ./apps/
-COPY libs/*/package.json ./libs/
-
-# Build argument for which service to run
-ARG SERVICE_NAME
-
-# Copy pre-built node_modules from builder (includes compiled native modules)
-COPY --from=builder /app/node_modules ./node_modules
-
-# Copy built application
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/libs ./libs
-
-# Set environment variable
 ENV NODE_ENV=production
+ENV PORT=3000
 
-# Expose port (will be overridden in docker-compose)
+# Copy runtime dependencies and compiled output
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/tsconfig*.json ./
+
 EXPOSE 3000
 
-# Default CMD (will be overridden by docker-compose)
-CMD ["node", "dist/apps/api-gateway/main.js"]
+CMD ["node", "-r", "tsconfig-paths/register", "dist/apps/api-gateway/apps/api-gateway/src/main.js"]
