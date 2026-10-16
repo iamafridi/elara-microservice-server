@@ -159,3 +159,5 @@ Once running:
 2. **CORS Guarding**: Ingress is restricted to authorized Elara domains and local development ports (`http://localhost:3020`, `https://*.elara.com.bd`).
 3. **Data Sanitization**: Internal SQL errors, stack traces, and database connection strings are intercepted by global filters and masked before transmission to clients.
 4. **Argon2 Password Hashing**: Passwords undergo salted Argon2 hashing; plain-text credentials and password hashes are never returned in response DTOs.
+
+<!-- v1.0.0-verified -->
