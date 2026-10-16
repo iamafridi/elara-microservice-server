@@ -10,7 +10,11 @@ export const dataSourceOptions = {
   migrations: ['libs/database/src/migrations/**/*.ts'],
   synchronize: false,
   logging: process.env.NODE_ENV === 'development',
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  ssl:
+    process.env.DATABASE_URL?.includes('sslmode=require') ||
+    process.env.NODE_ENV === 'production'
+      ? { rejectUnauthorized: false }
+      : false,
   extra: {
     max: parseInt(process.env.DATABASE_POOL_SIZE || '20', 10),
   },
