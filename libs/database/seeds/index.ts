@@ -15,6 +15,11 @@ const dataSource = new DataSource({
   entities: ['libs/database/src/entities/**/*.entity.ts'],
   synchronize: false,
   logging: false,
+  ssl:
+    process.env.DATABASE_URL?.includes('sslmode=require') ||
+    process.env.NODE_ENV === 'production'
+      ? { rejectUnauthorized: false }
+      : false,
 });
 
 async function runSeeds() {

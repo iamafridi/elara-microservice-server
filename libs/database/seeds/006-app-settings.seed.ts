@@ -89,6 +89,10 @@ export async function seedAppSettings(dataSource: DataSource) {
       { key: 'enable_open_banking', value: 'false', description: 'Enable Open Banking payments' },
     ];
 
+    await queryRunner.query(
+      `CREATE UNIQUE INDEX IF NOT EXISTS "UQ_app_settings_key" ON "app_settings" ("key");`
+    );
+
     for (const setting of settings) {
       await queryRunner.query(
         `

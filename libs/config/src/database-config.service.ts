@@ -148,7 +148,11 @@ export class DatabaseConfigService implements TypeOrmOptionsFactory {
       entities,
       synchronize: false, // Disabled to prevent schema sync errors with existing data
       logging: process.env.NODE_ENV === 'development',
-      ssl: false, // Disable SSL for Docker environment
+      ssl:
+        process.env.DATABASE_URL?.includes('sslmode=require') ||
+        process.env.NODE_ENV === 'production'
+          ? { rejectUnauthorized: false }
+          : false,
       extra: {
         max: parseInt(process.env.DATABASE_POOL_SIZE || '20', 10),
       },

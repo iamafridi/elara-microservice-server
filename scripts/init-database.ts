@@ -10,6 +10,11 @@ const AppDataSource = new DataSource({
   entities: [path.join(__dirname, '../libs/database/src/entities/**/*.entity{.ts,.js}')],
   synchronize: true, // This will auto-create tables
   logging: true,
+  ssl:
+    process.env.DATABASE_URL?.includes('sslmode=require') ||
+    process.env.NODE_ENV === 'production'
+      ? { rejectUnauthorized: false }
+      : false,
 });
 
 async function initDatabase() {

@@ -25,6 +25,7 @@ export * from './product-variant.entity';
 export * from './product-addon.entity';
 
 // Orders & Cart
+export * from './order.enums';
 export * from './order.entity';
 export * from './order-item.entity';
 export * from './order-status-log.entity';

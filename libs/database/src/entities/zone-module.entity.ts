@@ -1,7 +1,7 @@
 import { Entity, Column, ManyToOne, Index, JoinColumn } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { Zone } from './zone.entity';
-import { ModuleType } from './order.entity';
+import { ModuleType } from './order.enums';
 
 @Entity('zone_modules')
 @Index(['zoneId'])

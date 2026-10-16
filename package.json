@@ -32,8 +32,9 @@
     "docker:logs": "docker-compose logs -f",
     "migration:generate": "typeorm migration:generate -d libs/database/src/data-source.ts",
     "migration:create": "typeorm migration:create",
-    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d libs/database/src/data-source.ts",
-    "migration:revert": "typeorm migration:revert -d libs/database/src/data-source.ts",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d libs/database/src/data-source.ts",
+    "migration:revert": "typeorm-ts-node-commonjs migration:revert -d libs/database/src/data-source.ts",
+    "db:init": "ts-node -r tsconfig-paths/register scripts/init-database.ts",
     "seed": "ts-node -r tsconfig-paths/register libs/database/seeds/index.ts",
     "seed:zones": "ts-node -r tsconfig-paths/register -e \"import('./libs/database/seeds/001-zones.seed').then(m => m.seedZones)\"",
     "db:reset": "npm run migration:revert && npm run migration:run && npm run seed"

@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, Index, JoinColumn } from 'typeorm';
 import { BaseEntity } from './base.entity';
-import { OrderStatus } from './order.entity';
+import { OrderStatus } from './order.enums';
 
 @Entity('order_status_logs')
 @Index(['orderId'])
