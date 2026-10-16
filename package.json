@@ -4,16 +4,12 @@
   "description": "Elara Bangladesh Super App - Backend Microservices",
   "private": true,
 
-  "workspaces": [
-    "apps/*",
-    "libs/*"
-  ],
   "scripts": {
     "build": "nest build api-gateway",
     "start": "nest start api-gateway",
     "start:dev": "nest start api-gateway --watch",
     "start:debug": "nest start api-gateway --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node -r tsconfig-paths/register dist/apps/api-gateway/apps/api-gateway/src/main.js",
     "start:auth": "nest start auth-service --watch",
     "start:auth:dev": "nest start auth-service --watch",
     "start:ecommerce": "nest start ecommerce-service --watch",
